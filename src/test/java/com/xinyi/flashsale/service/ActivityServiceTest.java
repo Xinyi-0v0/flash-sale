@@ -29,7 +29,7 @@ public class ActivityServiceTest {
     @Test
     public void AddStock(){
         Activity activity = activityService.getActivityById(2l);
-        activity.setAvaiableStock(10l);
+        activity.setAvaiableStock(5l);
         activityService.updateActicity(activity);
     }
 }

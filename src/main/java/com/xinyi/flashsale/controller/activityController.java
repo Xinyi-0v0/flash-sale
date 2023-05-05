@@ -2,8 +2,10 @@ package com.xinyi.flashsale.controller;
 
 
 import com.xinyi.flashsale.db.model.Activity;
+import com.xinyi.flashsale.db.model.Order;
 import com.xinyi.flashsale.exception.BusinessException;
 import com.xinyi.flashsale.service.ActivityService;
+import com.xinyi.flashsale.service.OrderService;
 import com.xinyi.flashsale.util.ParaValidation;
 import com.xinyi.flashsale.util.RediService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class activityController {
     private ActivityService activityService;
     @Autowired
     private RediService rediService;
+
+    @Autowired
+    private OrderService orderService;
 
 // return html page: need to change @RestController to @Controller
 //    @GetMapping("/new")
@@ -69,16 +74,19 @@ public class activityController {
 //        }
 //    }
 
-        @GetMapping("/{id}/buy")
-    public String sellProduct(@PathVariable Long id){
-        Boolean res = rediService.stockDeductValidator("stock:"+ id);
-        if (res) {
-            System.out.println("Congratulation! successfully add this product!");
-            return "successfully!";
-        } else {
-            System.out.println("Sorry! This product is not available now! Fail to add this product to cart!");
-            return "FAIL!!!";
-        }
+    @GetMapping("/buy/{id}")
+    public void sellProduct(@PathVariable Long id){
+            try {
+                boolean res = rediService.stockDeductValidator("stock:" + id);
+                if (res) {
+                    orderService.createOrder(id, 2L);
+                    System.out.println("Congratulation! successfully add this product!");
+                } else {
+                    System.out.println("Sorry! This product is not available now! Fail to add this product to cart!");
+                }
+            }catch (Exception e) {
+                 throw new RuntimeException(e.getMessage());
+            }
     }
 
 }

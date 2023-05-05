@@ -16,15 +16,15 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from order
+    from `order`
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from order
+    delete from `order`
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.xinyi.flashsale.db.model.Order">
-    insert into order (id, order_no, order_status, 
+  <insert id="insert" parameterType="com.xinyi.flashsale.db.model.Order" useGeneratedKeys="true" keyProperty="id">
+    insert into `order` (id, order_no, order_status,
       activity_id, user_id, order_amount, 
       create_time)
     values (#{id,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER}, 
@@ -32,7 +32,7 @@
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.xinyi.flashsale.db.model.Order">
-    insert into order
+    insert into `order`
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -81,7 +81,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.xinyi.flashsale.db.model.Order">
-    update order
+    update `order`
     <set>
       <if test="orderNo != null">
         order_no = #{orderNo,jdbcType=VARCHAR},
@@ -105,7 +105,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.xinyi.flashsale.db.model.Order">
-    update order
+    update `order`
     set order_no = #{orderNo,jdbcType=VARCHAR},
       order_status = #{orderStatus,jdbcType=INTEGER},
       activity_id = #{activityId,jdbcType=BIGINT},

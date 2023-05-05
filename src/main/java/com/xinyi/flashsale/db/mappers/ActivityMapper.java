@@ -1,7 +1,6 @@
 package com.xinyi.flashsale.db.mappers;
 
 import com.xinyi.flashsale.db.model.Activity;
-import com.xinyi.flashsale.db.model.Product;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

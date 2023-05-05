@@ -1,1 +1,1 @@
-# flash-sale
+# flash-sal

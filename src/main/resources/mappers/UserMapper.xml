@@ -16,6 +16,9 @@
     from webUser
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="getAllUsers" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * from webUser
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from webUser
     where id = #{id,jdbcType=BIGINT}
