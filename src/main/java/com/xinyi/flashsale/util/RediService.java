@@ -53,5 +53,13 @@ public class RediService {
         }
     }
 
+    public void deductStock(String key){
+        redisTemplate.opsForValue().decrement(key);
+    }
+
+    public void revertStock(String key){
+        redisTemplate.opsForValue().increment(key);
+    }
+
 
 }

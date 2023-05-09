@@ -15,4 +15,9 @@ public interface ActivityDao {
     public boolean delete(long activityId);
 
     public void updateActivity(Activity activity);
+
+    public boolean lockStock(Long id);
+    public boolean deductStock(Long id);
+
+    public boolean revertStock(Long id);
 }

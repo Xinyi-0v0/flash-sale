@@ -5,6 +5,7 @@ import com.xinyi.flashsale.db.dao.OrderDao;
 import com.xinyi.flashsale.db.model.Activity;
 import com.xinyi.flashsale.db.model.Order;
 import com.xinyi.flashsale.exception.SystemException;
+import com.xinyi.flashsale.kafka.KafkaProducer;
 import com.xinyi.flashsale.service.OrderService;
 import com.xinyi.flashsale.util.SnowFlakeId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,21 +20,20 @@ public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
     @Autowired
     private ActivityDao activityDao;
+    @Autowired
+    private KafkaProducer kafkaProducer;
 
     private final SnowFlakeId snowFlakeID = new SnowFlakeId(1, 1);
     @Override
+    // create a new order and then send it to mq
     public void createOrder(Long activityId, Long userId) {
         Activity activity = activityDao.getById(activityId);
         Order order = new Order();
         order.setUserId(userId);
         order.setActivityId(activityId);
         order.setOrderNo(String.valueOf(snowFlakeID.nextId()));
-        order.setCreateTime(new Date());
         order.setOrderAmount(activity.getSeckillPrice());
-        if (orderDao.save(order) ){
-        } else {
-            throw new SystemException("Fail to create order",0);
-        }
+        kafkaProducer.sendMessage("create_order", order);
     }
 
     @Override

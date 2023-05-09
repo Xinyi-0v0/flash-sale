@@ -19,4 +19,10 @@ public interface ActivityMapper {
     int updateByPrimaryKeySelective(Activity record);
 
     int updateByPrimaryKey(Activity record);
+
+    int deductStock(Long id);
+
+    int revertStock(Long id);
+
+    int lockStock (Long id);
 }

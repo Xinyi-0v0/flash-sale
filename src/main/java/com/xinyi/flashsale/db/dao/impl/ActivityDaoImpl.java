@@ -50,4 +50,23 @@ public class  ActivityDaoImpl implements ActivityDao {
             throw new RuntimeException("Fail to update: " + e.getMessage());
         }
     }
+
+    @Override
+    public boolean lockStock(Long id) {
+       int res = activityMapper.lockStock(id);
+        return res >= 1;
+    }
+
+
+    @Override
+    public boolean deductStock(Long id) {
+        int res = activityMapper.deductStock(id);
+        return res >= 1;
+    }
+
+    @Override
+    public boolean revertStock(Long id) {
+        int res = activityMapper.revertStock(id);
+        return res >= 1;
+    }
 }
