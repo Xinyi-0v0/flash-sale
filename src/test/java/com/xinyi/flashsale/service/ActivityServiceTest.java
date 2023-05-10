@@ -28,8 +28,9 @@ public class ActivityServiceTest {
 
     @Test
     public void AddStock(){
-        Activity activity = activityService.getActivityById(2l);
+        Activity activity = activityService.getActivityById(3l);
         activity.setAvaiableStock(5l);
+        activity.setLockStock(0L);
         activityService.updateActicity(activity);
     }
 }

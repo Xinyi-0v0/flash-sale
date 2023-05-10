@@ -52,4 +52,22 @@ public class OrderServiceImpl implements OrderService {
     public void deleteOrder(Long orderId) {
         orderDao.delete(orderId);
     }
+
+    @Override
+    public void payOrderProcess(String orderId) {
+        System.out.println("***********payOrderProcess service active***********");
+        Order order = orderDao.getByOrderId(orderId);
+        if(order == null){
+            System.out.println("Order is not exist：" + orderId);
+            return;
+        } else if (order.getOrderStatus() != 1) {
+            System.out.println("Order is invalid：" + orderId);
+            return;
+        }
+
+        // 2: finish payment; 库存表压力大， 所以使用mq； 订单表压力没那么大， 可以直接操作数据库
+        order.setOrderStatus(2);
+        orderDao.updateOrder(order);
+        kafkaProducer.sendMessage("pay_done", order);
+    }
 }

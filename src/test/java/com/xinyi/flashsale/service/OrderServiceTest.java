@@ -25,6 +25,10 @@ public class OrderServiceTest {
         orderService.getOrder(1L);
 
     }
+    @Test
+    public void getOrderByOrderId(){
+        orderService.payOrderProcess("853320829256208384");
+    }
 
 
     @Test void deleteOrder(){

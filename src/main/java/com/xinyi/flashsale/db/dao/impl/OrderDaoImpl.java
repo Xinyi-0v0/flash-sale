@@ -47,4 +47,9 @@ public class OrderDaoImpl implements OrderDao {
         }
         return false;
     }
+
+    @Override
+    public Order getByOrderId(String orderId) {
+        return orderMapper.selectByOrderId(orderId);
+    }
 }

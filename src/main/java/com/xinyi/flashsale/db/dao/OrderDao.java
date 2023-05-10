@@ -11,4 +11,6 @@ public interface OrderDao {
     public boolean updateOrder(Order Order);
 
     public boolean delete(long productId);
+
+    Order getByOrderId(String orderId);
 }

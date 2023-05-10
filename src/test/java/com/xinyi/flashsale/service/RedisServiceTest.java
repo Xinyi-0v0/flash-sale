@@ -14,12 +14,12 @@ public class RedisServiceTest {
 
     @Test
     public void stockTest(){
-        redisService.setValue("stock:2",5L);
+        redisService.setValue("stock:3",3L);
     }
 
     @Test
     public void checkStock(){
-        redisService.getValue("stock:1");
+        redisService.getValue("stock:3");
     }
 
 

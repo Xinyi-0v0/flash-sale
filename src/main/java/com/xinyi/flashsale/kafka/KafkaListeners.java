@@ -26,12 +26,11 @@ public class KafkaListeners {
     @Transactional
     @KafkaListener(topics = "create_order", groupId = "my_group_xinyi")
     void createOrderListener(Message<Order> message){
-        System.out.println("******* Message Received ********");
+        System.out.println("******* create_order Message Received ********");
         // get order
         Order order = message.getPayload();
         order.setCreateTime(new Date());
-        // update stock info in Redis and DB
-        redisService.deductStock("stock:"+order.getActivityId());
+        // update stock info in DB （Redis is updated when validate stock）
         boolean lockStockResult  = activityDao.lockStock(order.getActivityId());
         if (lockStockResult) {
             //order status 0:no available stock 1:wait for payment
@@ -57,13 +56,10 @@ public class KafkaListeners {
     @Transactional
     @KafkaListener(topics = "pay_done", groupId = "my_group_xinyi")
     void afterPayment(Message<Order> message){
-        System.out.println("******* Message Received ********");
+        System.out.println("******* pay_done Message Received ********");
         Order order = message.getPayload();
-        // update order status: 2: finish payment
-        order.setOrderStatus(2);
-        orderDao.updateOrder(order);
         // update stock info
-        activityDao.deductStock(order.getId());
+        activityDao.deductStock(order.getActivityId());
         System.out.println("***************");
 
     }

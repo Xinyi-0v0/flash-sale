@@ -16,4 +16,6 @@ public interface OrderService {
 
 
     public void deleteOrder(Long orderId);
+
+    void payOrderProcess(String orderId);
 }

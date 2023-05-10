@@ -43,6 +43,7 @@ public class activityController {
                 || !ParaValidation.isValidLong(activity.getAvaiableStock())) {
             throw new BusinessException("wrong parameters", 0);
         }
+        activity.setLockStock(0L);
         activityService.addNewActivity(activity);
         return activity;
     }
@@ -58,22 +59,6 @@ public class activityController {
 
     }
 
-//    // Simple deduction would cause oversell
-//    @GetMapping("/{id}/buy")
-//    public String sellProduct(@PathVariable Long id){
-//        Activity activity = activityService.getActivityById(id);
-//        Long availableStock = activity.getAvailableStock();
-//        if (availableStock > 0) {
-//            activity.setAvailableStock(availableStock - 1);
-//            activityService.updateActivity(activity);
-//            System.out.println("successfully placed the order");
-//            return "successfully placed the order";
-//        } else {
-//            System.out.println("FAIL!!!");
-//            return "FAIL!!!";
-//        }
-//    }
-
     @GetMapping("/buy/{id}")
     public void sellProduct(@PathVariable Long id){
             try {
@@ -88,5 +73,11 @@ public class activityController {
                  throw new RuntimeException(e.getMessage());
             }
     }
+
+    @GetMapping("/pay/{orderId}")
+    public void payForProduct(@PathVariable String orderId){
+        orderService.payOrderProcess(orderId);
+    }
+
 
 }
